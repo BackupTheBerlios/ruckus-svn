@@ -269,7 +269,7 @@
 			  <property name="spacing">2</property>
 
 			  <child>
-			    <widget class="GtkImage" id="image8">
+			    <widget class="GtkImage" id="play_pause_image">
 			      <property name="visible">True</property>
 			      <property name="pixbuf">play.png</property>
 			      <property name="xalign">0.5</property>
