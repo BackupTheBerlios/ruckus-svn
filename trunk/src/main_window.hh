@@ -27,11 +27,11 @@ class main_window : public main_window_glade
 	void on_button_skip_forward_clicked();
 
 	bool my_current_id( const unsigned int& id );
+	bool my_signal_playtime( const unsigned int& pt );
 	bool my_broadcast_current_id( const unsigned int& id );
 	bool error_handler( const std::string& error );
 	bool set_play_pause( unsigned int status );
 	bool set_info( const Xmms::Dict& dict );
-	bool refresh_info( const Xmms::Dict& dict );
 
 public:
 	main_window();

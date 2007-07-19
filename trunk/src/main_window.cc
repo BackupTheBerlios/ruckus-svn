@@ -12,13 +12,16 @@
 #include "config.h"
 #include "main_window.hh"
 #include <boost/bind.hpp>
+// #include <gdkmm/colormap.h> // Enable this to set colors
 
 main_window::main_window(): client_ ( "Ruckus" )
 {
         client_.connect( std::getenv( "XMMS_PATH" ) );
         client_.playback.currentID()( Xmms::bind( &main_window::my_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
         client_.playback.broadcastCurrentID()( Xmms::bind( &main_window::my_broadcast_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
+        client_.playback.signalPlaytime()( Xmms::bind( &main_window::my_signal_playtime, this ), Xmms::bind( &main_window::error_handler, this ) );
         client_.setMainloop( new Xmms::GMainloop( client_.getConnection() ) );
+//	song_info_eventbox->modify_bg(Gtk::STATE_NORMAL, Gdk::Color("blue"));
 }
 
 void main_window::on_togglebutton1_toggled()
@@ -62,6 +65,18 @@ void main_window::on_refresh_button_clicked()
 {
 }
 
+bool main_window::my_signal_playtime( const unsigned int& pt )
+{
+	int hours, minutes, seconds;
+	hours = (pt/(60*60*1000))%24;
+	minutes = (pt/(60*1000))%60;
+	seconds = (pt/1000)%60;
+	char buffer[33];
+	sprintf(buffer,"<span font_desc=\"16\"><b>%.2i:%.2i:%.2i</b></span>",hours,minutes,seconds);
+	play_time->set_markup(buffer);
+	client_.playback.signalPlaytime()( Xmms::bind( &main_window::my_signal_playtime, this ), Xmms::bind( &main_window::error_handler, this ) );
+}
+
 bool main_window::my_current_id( const unsigned int& id )
 {
         std::cout << "Currently playing ID is " << id << std::endl;
@@ -72,7 +87,7 @@ bool main_window::my_current_id( const unsigned int& id )
 bool main_window::my_broadcast_current_id( const unsigned int& id )
 {
         std::cout << "Currently playing ID is " << id << std::endl;
-        client_.medialib.getInfo( id )( Xmms::bind( &main_window::refresh_info, this ), Xmms::bind( &main_window::error_handler, this ) );
+        client_.medialib.getInfo( id )( Xmms::bind( &main_window::set_info, this ), Xmms::bind( &main_window::error_handler, this ) );
  		client_.playback.broadcastCurrentID()( Xmms::bind( &main_window::my_broadcast_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
         return false;
 }
@@ -80,26 +95,17 @@ bool main_window::my_broadcast_current_id( const unsigned int& id )
 bool main_window::set_info( const Xmms::Dict& dict )
 {
         std::string title = "<span font_desc=\"20\"><b>" + dict.get<std::string> ("title") + "</b></span>";
-		std::string aa = "<b>" + dict.get<std::string> ("artist") + " - " + dict.get<std::string> ("album") + "</b>";
-        song_title->set_label(title);
-        artist_album->set_label(aa);
-        std::cout << dict["artist"] << std::endl;
-        std::cout << dict["album"] << std::endl;
-        std::cout << dict["title"] << std::endl;
-//      g_main_loop_quit( ml_ );
-        return false;
-}
-
-bool main_window::refresh_info( const Xmms::Dict& dict )
-{
-        std::string title = "<span font_desc=\"20\"><b>" + dict.get<std::string> ("title") + "</b></span>";
-		std::string aa = "<b>" + dict.get<std::string> ("artist") + " - " + dict.get<std::string> ("album") + "</b>";
-        song_title->set_label(title);
-        artist_album->set_label(aa);
-        std::cout << dict["artist"] << std::endl;
-        std::cout << dict["album"] << std::endl;
-        std::cout << dict["title"] << std::endl;
-//      g_main_loop_quit( ml_ );
+		std::string aa = "<span font_desc=\"16\"><b>" + dict.get<std::string> ("artist") + " - " + dict.get<std::string> ("album") + "</b></span>";
+		size_t amp = aa.find("&");
+		if (amp != std::string::npos)
+			aa.replace(amp,1,"&amp;");
+		amp = title.find("&");
+		if (amp != std::string::npos)
+			title.replace(amp,1,"&amp;");
+        song_title->set_markup(title);
+        artist_album->set_markup(aa);
+        std::cout << title << std::endl;
+        std::cout << aa << std::endl;
         return false;
 }
 

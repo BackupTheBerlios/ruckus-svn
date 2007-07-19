@@ -994,16 +994,18 @@ main_window.o main_window.o: main_window.cc \
   /usr/include/gtkmm-2.4/gtkmm/clipboard.h \
   /usr/include/gtkmm-2.4/gtkmm/selectiondata.h \
   /usr/include/gtkmm-2.4/gtkmm/label.h \
-  /usr/include/gtkmm-2.4/gtkmm/misc.h \
-  /usr/include/gtkmm-2.4/gtkmm/drawingarea.h \
-  /usr/include/gtkmm-2.4/gtkmm/scale.h \
-  /usr/include/gtkmm-2.4/gtkmm/range.h /usr/include/gtkmm-2.4/gtkmm/box.h \
+  /usr/include/gtkmm-2.4/gtkmm/misc.h /usr/include/gtkmm-2.4/gtkmm/box.h \
   /usr/include/gtk-2.0/gtk/gtkbox.h \
   /usr/include/gtk-2.0/gtk/gtkcontainer.h \
+  /usr/include/gtkmm-2.4/gtkmm/eventbox.h \
+  /usr/include/gtkmm-2.4/gtkmm/alignment.h \
+  /usr/include/gtkmm-2.4/gtkmm/frame.h \
+  /usr/include/gtkmm-2.4/gtkmm/drawingarea.h \
+  /usr/include/gtkmm-2.4/gtkmm/scale.h \
+  /usr/include/gtkmm-2.4/gtkmm/range.h \
   /usr/include/gtkmm-2.4/gtkmm/image.h \
   /usr/include/gdkmm-2.4/gdkmm/pixbufanimation.h \
   /usr/include/gdkmm-2.4/gdkmm/pixbufanimationiter.h \
-  /usr/include/gtkmm-2.4/gtkmm/alignment.h \
   /usr/include/gtkmm-2.4/gtkmm/button.h \
   /usr/include/gtkmm-2.4/gtkmm/buttonbox.h \
   /usr/include/gtkmm-2.4/gtkmm/treeview.h \
@@ -3260,25 +3262,29 @@ main_window_glade.hh:
 
 /usr/include/gtkmm-2.4/gtkmm/misc.h:
 
-/usr/include/gtkmm-2.4/gtkmm/drawingarea.h:
-
-/usr/include/gtkmm-2.4/gtkmm/scale.h:
-
-/usr/include/gtkmm-2.4/gtkmm/range.h:
-
 /usr/include/gtkmm-2.4/gtkmm/box.h:
 
 /usr/include/gtk-2.0/gtk/gtkbox.h:
 
 /usr/include/gtk-2.0/gtk/gtkcontainer.h:
 
+/usr/include/gtkmm-2.4/gtkmm/eventbox.h:
+
+/usr/include/gtkmm-2.4/gtkmm/alignment.h:
+
+/usr/include/gtkmm-2.4/gtkmm/frame.h:
+
+/usr/include/gtkmm-2.4/gtkmm/drawingarea.h:
+
+/usr/include/gtkmm-2.4/gtkmm/scale.h:
+
+/usr/include/gtkmm-2.4/gtkmm/range.h:
+
 /usr/include/gtkmm-2.4/gtkmm/image.h:
 
 /usr/include/gdkmm-2.4/gdkmm/pixbufanimation.h:
 
 /usr/include/gdkmm-2.4/gdkmm/pixbufanimationiter.h:
-
-/usr/include/gtkmm-2.4/gtkmm/alignment.h:
 
 /usr/include/gtkmm-2.4/gtkmm/button.h:
 
