@@ -39,9 +39,15 @@ bool main_window::on_progressbar_button_release_event(GdkEventButton *ev)
 	return 0;
 }
 
-void main_window::on_togglebutton1_toggled()
+void main_window::on_quit_button_clicked()
 {
-	if (togglebutton1->get_active()) {
+//	main_window::destroy_();
+	main_window::hide();
+}
+
+void main_window::on_fullscreen_button_toggled()
+{
+	if (fullscreen_button->get_active()) {
 		fullscreen();
 		fullscreen_togglebutton_label->set_label("UnFullscreen");
 	} else {

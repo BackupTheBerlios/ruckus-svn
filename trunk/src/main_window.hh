@@ -18,7 +18,8 @@ class main_window : public main_window_glade
 {
         bool on_progressbar_button_press_event(GdkEventButton *ev);
         bool on_progressbar_button_release_event(GdkEventButton *ev);
-	void on_togglebutton1_toggled();
+        void on_fullscreen_button_toggled();
+        void on_quit_button_clicked();
 	void on_button_play_clicked();
 	void on_button_pause_clicked();
 	void on_button_stop_clicked();
