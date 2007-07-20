@@ -17,15 +17,12 @@
 main_window::main_window(): client_ ( "Ruckus" )
 {
 	curr_duration = 9999999;
-        client_.connect( std::getenv( "XMMS_PATH" ) );
-	client_.playback.currentID()( Xmms::bind( &main_window::my_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
-        client_.playback.broadcastCurrentID()( Xmms::bind( &main_window::my_broadcast_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
-        client_.playback.signalPlaytime()( Xmms::bind( &main_window::my_signal_playtime, this ), Xmms::bind( &main_window::error_handler, this ) );
-        client_.setMainloop( new Xmms::GMainloop( client_.getConnection() ) );
+	client_.connect( std::getenv( "XMMS_PATH" ) );
+	client_.playback.currentID()( Xmms::bind( &main_window::my_broadcast_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
+	client_.playback.getPlaytime()( Xmms::bind( &main_window::my_signal_playtime, this ), Xmms::bind( &main_window::error_handler, this ) );
+	client_.setMainloop( new Xmms::GMainloop( client_.getConnection() ) );
 	song_info_eventbox->modify_bg(Gtk::STATE_NORMAL, Gdk::Color("blue"));
 }
-
-//client_.playback.seekMs((unsigned int)progressbar->get_value());
 
 bool main_window::on_progressbar_button_press_event(GdkEventButton *ev)
 {  
@@ -34,14 +31,15 @@ bool main_window::on_progressbar_button_press_event(GdkEventButton *ev)
 }
 
 bool main_window::on_progressbar_button_release_event(GdkEventButton *ev)
-{  
+{
+	unsigned int newpos = (unsigned int)progressbar->get_value();
 	client_.playback.start();
+	client_.playback.seekMs(newpos);
 	return 0;
 }
 
 void main_window::on_quit_button_clicked()
 {
-//	main_window::destroy_();
 	main_window::hide();
 }
 
@@ -84,8 +82,6 @@ void main_window::on_button_skip_forward_clicked()
 
 bool main_window::my_signal_playtime( const unsigned int& pt )
 {
-//	float elapsed_percent = ((float)pt/(float)curr_duration)*100;
-//	std::cout << pt << "/" << curr_duration << " ||  " << elapsed_percent << std::endl;
 	progressbar->set_range(0,curr_duration);
 	progressbar->set_value(pt);
 	int hours, minutes, seconds;
@@ -98,19 +94,11 @@ bool main_window::my_signal_playtime( const unsigned int& pt )
 	client_.playback.signalPlaytime()( Xmms::bind( &main_window::my_signal_playtime, this ), Xmms::bind( &main_window::error_handler, this ) );
 }
 
-bool main_window::my_current_id( const unsigned int& id )
-{
-        std::cout << "Currently playing ID is " << id << std::endl;
-        client_.medialib.getInfo( id )( Xmms::bind( &main_window::set_info, this ), Xmms::bind( &main_window::error_handler, this ) );
-        return false;
-}
-
 bool main_window::my_broadcast_current_id( const unsigned int& id )
 {
-        std::cout << "Currently playing ID is " << id << std::endl;
-        client_.medialib.getInfo( id )( Xmms::bind( &main_window::set_info, this ), Xmms::bind( &main_window::error_handler, this ) );
- 		client_.playback.broadcastCurrentID()( Xmms::bind( &main_window::my_broadcast_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
-        return false;
+	client_.medialib.getInfo( id )( Xmms::bind( &main_window::set_info, this ), Xmms::bind( &main_window::error_handler, this ) );
+	client_.playback.broadcastCurrentID()( Xmms::bind( &main_window::my_broadcast_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
+	return false;
 }
 
 std::string main_window::remove_amp( std::string& string )
@@ -127,21 +115,19 @@ std::string main_window::remove_amp( std::string& string )
 bool main_window::set_info( const Xmms::Dict& dict )
 {
 	curr_duration = dict.get<int> ("duration");
-        std::string title = "<span font_desc=\"20\"><b>" + dict.get<std::string> ("title") + "</b></span>";
+	std::string title = "<span font_desc=\"20\"><b>" + dict.get<std::string> ("title") + "</b></span>";
 	std::string aa = "<span font_desc=\"16\"><b>" + dict.get<std::string> ("artist") + " - " + dict.get<std::string> ("album") + "</b></span>";
 	title = remove_amp(title);
 	aa = remove_amp(aa);
-        song_title->set_markup(title);
-        artist_album->set_markup(aa);
-        std::cout << title << std::endl;
-        std::cout << aa << std::endl;
-        return false;
+	song_title->set_markup(title);
+	artist_album->set_markup(aa);
+	return false;
 }
 
 bool main_window::error_handler( const std::string& error )
 {
-        std::cout << "Error" << " - " << error << std::endl;
-        return false;
+	std::cout << "Error" << " - " << error << std::endl;
+	return false;
 }
 
 bool main_window::set_play_pause( unsigned int status )
@@ -150,6 +136,5 @@ bool main_window::set_play_pause( unsigned int status )
 		client_.playback.start();
 	if ( status == 1 )
 		client_.playback.pause();
-		
 	return false;
 }

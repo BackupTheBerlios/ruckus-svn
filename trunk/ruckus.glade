@@ -424,6 +424,7 @@
 
 			  <child>
 			    <widget class="GtkImage" id="pause_image">
+			      <property name="visible">True</property>
 			      <property name="pixbuf">pause.png</property>
 			      <property name="xalign">0.5</property>
 			      <property name="yalign">0.5</property>
