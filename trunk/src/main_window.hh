@@ -16,6 +16,8 @@
 #  define _main_window_HH
 class main_window : public main_window_glade
 {
+        bool on_progressbar_button_press_event(GdkEventButton *ev);
+        bool on_progressbar_button_release_event(GdkEventButton *ev);
 	void on_togglebutton1_toggled();
 	void on_button_play_clicked();
 	void on_button_pause_clicked();
@@ -30,8 +32,11 @@ class main_window : public main_window_glade
 	bool my_signal_playtime( const unsigned int& pt );
 	bool my_broadcast_current_id( const unsigned int& id );
 	bool error_handler( const std::string& error );
+	std::string remove_amp( std::string& string );
 	bool set_play_pause( unsigned int status );
 	bool set_info( const Xmms::Dict& dict );
+
+	unsigned int curr_duration;
 
 public:
 	main_window();

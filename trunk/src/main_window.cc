@@ -12,16 +12,31 @@
 #include "config.h"
 #include "main_window.hh"
 #include <boost/bind.hpp>
-// #include <gdkmm/colormap.h> // Enable this to set colors
+#include <gdkmm/colormap.h> // Enable this to set colors
 
 main_window::main_window(): client_ ( "Ruckus" )
 {
+	curr_duration = 9999999;
         client_.connect( std::getenv( "XMMS_PATH" ) );
-        client_.playback.currentID()( Xmms::bind( &main_window::my_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
+	client_.playback.currentID()( Xmms::bind( &main_window::my_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
         client_.playback.broadcastCurrentID()( Xmms::bind( &main_window::my_broadcast_current_id, this ), Xmms::bind( &main_window::error_handler, this ) );
         client_.playback.signalPlaytime()( Xmms::bind( &main_window::my_signal_playtime, this ), Xmms::bind( &main_window::error_handler, this ) );
         client_.setMainloop( new Xmms::GMainloop( client_.getConnection() ) );
-//	song_info_eventbox->modify_bg(Gtk::STATE_NORMAL, Gdk::Color("blue"));
+	song_info_eventbox->modify_bg(Gtk::STATE_NORMAL, Gdk::Color("blue"));
+}
+
+//client_.playback.seekMs((unsigned int)progressbar->get_value());
+
+bool main_window::on_progressbar_button_press_event(GdkEventButton *ev)
+{  
+	client_.playback.pause();
+	return 0;
+}
+
+bool main_window::on_progressbar_button_release_event(GdkEventButton *ev)
+{  
+	client_.playback.start();
+	return 0;
 }
 
 void main_window::on_togglebutton1_toggled()
@@ -61,12 +76,12 @@ void main_window::on_button_skip_forward_clicked()
 	client_.playback.tickle();
 }
 
-void main_window::on_refresh_button_clicked()
-{
-}
-
 bool main_window::my_signal_playtime( const unsigned int& pt )
 {
+//	float elapsed_percent = ((float)pt/(float)curr_duration)*100;
+//	std::cout << pt << "/" << curr_duration << " ||  " << elapsed_percent << std::endl;
+	progressbar->set_range(0,curr_duration);
+	progressbar->set_value(pt);
 	int hours, minutes, seconds;
 	hours = (pt/(60*60*1000))%24;
 	minutes = (pt/(60*1000))%60;
@@ -92,16 +107,24 @@ bool main_window::my_broadcast_current_id( const unsigned int& id )
         return false;
 }
 
+std::string main_window::remove_amp( std::string& string )
+{
+	size_t pos = 0;
+	while ( (pos=string.find("&", pos)) != std::string::npos)
+	{
+		string.replace(pos,1,"&amp;");
+		pos++;
+	}
+	return string;
+}
+
 bool main_window::set_info( const Xmms::Dict& dict )
 {
+	curr_duration = dict.get<int> ("duration");
         std::string title = "<span font_desc=\"20\"><b>" + dict.get<std::string> ("title") + "</b></span>";
-		std::string aa = "<span font_desc=\"16\"><b>" + dict.get<std::string> ("artist") + " - " + dict.get<std::string> ("album") + "</b></span>";
-		size_t amp = aa.find("&");
-		if (amp != std::string::npos)
-			aa.replace(amp,1,"&amp;");
-		amp = title.find("&");
-		if (amp != std::string::npos)
-			title.replace(amp,1,"&amp;");
+	std::string aa = "<span font_desc=\"16\"><b>" + dict.get<std::string> ("artist") + " - " + dict.get<std::string> ("album") + "</b></span>";
+	title = remove_amp(title);
+	aa = remove_amp(aa);
         song_title->set_markup(title);
         artist_album->set_markup(aa);
         std::cout << title << std::endl;
