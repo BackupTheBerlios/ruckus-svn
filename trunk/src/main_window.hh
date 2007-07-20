@@ -20,14 +20,11 @@ class main_window : public main_window_glade
 	bool on_progressbar_button_release_event(GdkEventButton *ev);
 	void on_fullscreen_button_toggled();
 	void on_quit_button_clicked();
-	void on_button_play_clicked();
-	void on_button_pause_clicked();
-	void on_button_stop_clicked();
-	void on_button_skip_back_clicked();
+	void on_button_play_pause_clicked();
+	void on_button_previous_clicked();
 	void on_button_rewind_clicked();
-	void on_button_fastforward_clicked();
-	void on_refresh_button_clicked();
-	void on_button_skip_forward_clicked();
+	void on_button_next_clicked();
+	void on_button_forward_clicked();
 
 	bool my_signal_playtime( const unsigned int& pt );
 	bool my_broadcast_current_id( const unsigned int& id );

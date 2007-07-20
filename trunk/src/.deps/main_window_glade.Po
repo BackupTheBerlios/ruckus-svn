@@ -440,20 +440,17 @@ main_window_glade.o main_window_glade.o: main_window_glade.cc ../config.h \
   /usr/include/gtkmm-2.4/gtkmm/clipboard.h \
   /usr/include/gtkmm-2.4/gtkmm/selectiondata.h \
   /usr/include/gtkmm-2.4/gtkmm/label.h \
-  /usr/include/gtkmm-2.4/gtkmm/misc.h /usr/include/gtkmm-2.4/gtkmm/box.h \
-  /usr/include/gtk-2.0/gtk/gtkbox.h \
-  /usr/include/gtk-2.0/gtk/gtkcontainer.h \
-  /usr/include/gtkmm-2.4/gtkmm/eventbox.h \
+  /usr/include/gtkmm-2.4/gtkmm/misc.h \
   /usr/include/gtkmm-2.4/gtkmm/alignment.h \
   /usr/include/gtkmm-2.4/gtkmm/frame.h \
+  /usr/include/gtkmm-2.4/gtkmm/eventbox.h \
+  /usr/include/gtkmm-2.4/gtkmm/box.h /usr/include/gtk-2.0/gtk/gtkbox.h \
+  /usr/include/gtk-2.0/gtk/gtkcontainer.h \
   /usr/include/gtkmm-2.4/gtkmm/drawingarea.h \
   /usr/include/gtkmm-2.4/gtkmm/scale.h \
   /usr/include/gtkmm-2.4/gtkmm/range.h \
-  /usr/include/gtkmm-2.4/gtkmm/image.h \
-  /usr/include/gdkmm-2.4/gdkmm/pixbufanimation.h \
-  /usr/include/gdkmm-2.4/gdkmm/pixbufanimationiter.h \
+  /usr/include/gtkmm-2.4/gtkmm/progressbar.h \
   /usr/include/gtkmm-2.4/gtkmm/button.h \
-  /usr/include/gtkmm-2.4/gtkmm/buttonbox.h \
   /usr/include/gtkmm-2.4/gtkmm/treeview.h \
   /usr/include/gtkmm-2.4/gtkmm/adjustment.h \
   /usr/include/gtkmm-2.4/gtkmm/treeviewcolumn.h \
@@ -492,8 +489,10 @@ main_window_glade.o main_window_glade.o: main_window_glade.cc ../config.h \
   /usr/include/gtkmm-2.4/gtkmm/separatormenuitem.h \
   /usr/include/gtkmm-2.4/gtkmm/entrycompletion.h \
   /usr/include/gtkmm-2.4/gtkmm/scrolledwindow.h \
-  /usr/include/gtkmm-2.4/gtkmm/notebook.h \
-  /usr/include/gdkmm-2.4/gdkmm/pixbufloader.h
+  /usr/include/gtkmm-2.4/gtkmm/image.h \
+  /usr/include/gdkmm-2.4/gdkmm/pixbufanimation.h \
+  /usr/include/gdkmm-2.4/gdkmm/pixbufanimationiter.h \
+  /usr/include/gtkmm-2.4/gtkmm/notebook.h
 
 ../config.h:
 
@@ -1495,17 +1494,17 @@ main_window_glade.hh:
 
 /usr/include/gtkmm-2.4/gtkmm/misc.h:
 
+/usr/include/gtkmm-2.4/gtkmm/alignment.h:
+
+/usr/include/gtkmm-2.4/gtkmm/frame.h:
+
+/usr/include/gtkmm-2.4/gtkmm/eventbox.h:
+
 /usr/include/gtkmm-2.4/gtkmm/box.h:
 
 /usr/include/gtk-2.0/gtk/gtkbox.h:
 
 /usr/include/gtk-2.0/gtk/gtkcontainer.h:
-
-/usr/include/gtkmm-2.4/gtkmm/eventbox.h:
-
-/usr/include/gtkmm-2.4/gtkmm/alignment.h:
-
-/usr/include/gtkmm-2.4/gtkmm/frame.h:
 
 /usr/include/gtkmm-2.4/gtkmm/drawingarea.h:
 
@@ -1513,15 +1512,9 @@ main_window_glade.hh:
 
 /usr/include/gtkmm-2.4/gtkmm/range.h:
 
-/usr/include/gtkmm-2.4/gtkmm/image.h:
-
-/usr/include/gdkmm-2.4/gdkmm/pixbufanimation.h:
-
-/usr/include/gdkmm-2.4/gdkmm/pixbufanimationiter.h:
+/usr/include/gtkmm-2.4/gtkmm/progressbar.h:
 
 /usr/include/gtkmm-2.4/gtkmm/button.h:
-
-/usr/include/gtkmm-2.4/gtkmm/buttonbox.h:
 
 /usr/include/gtkmm-2.4/gtkmm/treeview.h:
 
@@ -1599,6 +1592,10 @@ main_window_glade.hh:
 
 /usr/include/gtkmm-2.4/gtkmm/scrolledwindow.h:
 
-/usr/include/gtkmm-2.4/gtkmm/notebook.h:
+/usr/include/gtkmm-2.4/gtkmm/image.h:
 
-/usr/include/gdkmm-2.4/gdkmm/pixbufloader.h:
+/usr/include/gdkmm-2.4/gdkmm/pixbufanimation.h:
+
+/usr/include/gdkmm-2.4/gdkmm/pixbufanimationiter.h:
+
+/usr/include/gtkmm-2.4/gtkmm/notebook.h:
