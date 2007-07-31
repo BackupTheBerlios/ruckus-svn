@@ -1,6 +1,7 @@
 #include "xmms2client.hh"
 #include "ruckusGUI.hh"
 #include <xmmsclient/xmmsclient++-glib.h>
+#include <boost/bind.hpp>
 #include <iostream>
 #include <iterator>
 #include <list>
@@ -106,43 +107,41 @@ void xmms2client::get_playlist()
 	client_.playlist.listEntries()( Xmms::bind( &xmms2client::get_current_queue, this ), Xmms::bind( &xmms2client::error_handler, this ) );
 }
 
-bool xmms2client::set_playlist( const Xmms::Dict& dict )
+bool xmms2client::set_playlist( const unsigned int i, const Xmms::Dict& dict )
 {
 	row = *(pgui->m_refTreeModel->append());
-	string temp;
+	string temp_title, temp_artist, temp_album;
 	stringstream id;
-	id << dict.get<int> ("id");
-	row[pgui->m_PModel.m_col_id] = "<span foreground=\"white\" font_desc=\"16\"><b>" + id.str() + "</b></span>";
+	id << "[" << i << "/" << dict.get<int> ("id") << "]";
+	row[pgui->m_PModel.m_col_id] = "<span foreground=\"white\" font_desc=\"10\"><b>" + id.str() + "</b></span>";
 	if (dict.contains("title"))
 	{
-		temp = dict.get<string> ("title");
-		temp = pgui->remove_amp(temp);
-		row[pgui->m_PModel.m_col_title] = "<span foreground=\"white\" font_desc=\"16\"><b>" + temp + "</b></span>";
+		temp_title = dict.get<string> ("title");
+		temp_title = pgui->remove_amp(temp_title);
 	}
 	else
 	{
-		row[pgui->m_PModel.m_col_title] = "<span foreground=\"white\" font_desc=\"16\"><b>None</b></span>";
+		temp_title = "None";
 	}
 	if (dict.contains("artist"))
 	{
-		temp = dict.get<string> ("artist");
-		temp = pgui->remove_amp(temp);
-		row[pgui->m_PModel.m_col_artist] = "<span foreground=\"white\" font_desc=\"16\"><b>" + temp + "</b></span>";
+		temp_artist = dict.get<string> ("artist");
+		temp_artist = pgui->remove_amp(temp_artist);
 	}
 	else
 	{
-		row[pgui->m_PModel.m_col_artist] = "<span foreground=\"white\" font_desc=\"16\"><b>None</b></span>";
+		temp_artist = "None";
 	}
 	if (dict.contains("album"))
 	{
-		temp = dict.get<string> ("album");
-		temp = pgui->remove_amp(temp);
-		row[pgui->m_PModel.m_col_album] = "<span foreground=\"white\" font_desc=\"16\"><b>" + temp + "</b></span>";
+		temp_album = dict.get<string> ("album");
+		temp_album = pgui->remove_amp(temp_album);
 	}
 	else
 	{
-		row[pgui->m_PModel.m_col_album] = "<span foreground=\"white\" font_desc=\"16\"><b>None</b></span>";
+		temp_album = "None";
 	}
+	row[pgui->m_PModel.m_col_title] = "<span foreground=\"white\" font_desc=\"14\"><b>" + temp_title + "</b></span>\n<span foreground=\"white\" font_desc=\"10\"><b>Artist: " + temp_artist + "</b></span>\n<span foreground=\"white\" font_desc=\"10\"><b>Album: " + temp_album + "</b></span>";
 }
 
 bool xmms2client::update_trackinfo_pre( const unsigned int& id )
@@ -229,8 +228,10 @@ bool xmms2client::update_volume (const Xmms::Dict& dict )
 
 bool xmms2client::get_current_queue(const Xmms::List< unsigned int > &list)
 {
+	int i = 1;
 	for (list.first (); list.isValid (); ++list) {
-		client_.medialib.getInfo( *list )( Xmms::bind( &xmms2client::set_playlist, this ), Xmms::bind( &xmms2client::error_handler, this ) );
+		client_.medialib.getInfo( *list )( boost::bind( &xmms2client::set_playlist, this, i, _1 ), Xmms::bind( &xmms2client::error_handler, this ) );
+		i ++;
 	}
 	return false;
 }

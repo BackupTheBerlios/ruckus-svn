@@ -13,7 +13,7 @@ ruckusGUI::ruckusGUI(xmms2client *x2c)
 	volume_progressbar->modify_bg(Gtk::STATE_SELECTED, Gdk::Color("gray16"));
 	volume_progressbar->set_orientation((Gtk::ProgressBarOrientation)2);
 	alignment15->set_padding(5,0,0,0);
-	align_playlist_buttons->set_padding(0,0,0,10);
+	align_playlist_buttons->set_padding(0,10,0,0);
 	song_info_eventbox->modify_bg(Gtk::STATE_NORMAL, Gdk::Color("gray32"));
 	eventbox_main->modify_bg(Gtk::STATE_NORMAL, Gdk::Color("black"));
 	eventbox_playlist->modify_bg(Gtk::STATE_NORMAL, Gdk::Color("black"));
@@ -41,6 +41,12 @@ ruckusGUI::ruckusGUI(xmms2client *x2c)
 	button_vol_up->modify_bg(Gtk::STATE_PRELIGHT, Gdk::Color(button_color_h));
 	button_mute->modify_bg(Gtk::STATE_PRELIGHT, Gdk::Color(button_color_h));
 	button_vol_down->modify_bg(Gtk::STATE_PRELIGHT, Gdk::Color(button_color_h));
+	button_plup->modify_bg(Gtk::STATE_PRELIGHT, Gdk::Color(button_color_h));
+	button_pljmp->modify_bg(Gtk::STATE_PRELIGHT, Gdk::Color(button_color_h));
+	button_pldn->modify_bg(Gtk::STATE_PRELIGHT, Gdk::Color(button_color_h));
+	button_plup->modify_bg(Gtk::STATE_NORMAL, Gdk::Color(button_color));
+	button_pljmp->modify_bg(Gtk::STATE_NORMAL, Gdk::Color(button_color));
+	button_pldn->modify_bg(Gtk::STATE_NORMAL, Gdk::Color(button_color));
 	notebook1->modify_bg(Gtk::STATE_NORMAL, Gdk::Color("gray12"));
 	notebook1->modify_bg(Gtk::STATE_ACTIVE, Gdk::Color("black"));
 	align_playback->set_padding(5,0,0,0);
@@ -50,26 +56,16 @@ ruckusGUI::ruckusGUI(xmms2client *x2c)
   	m_treeviewcolumn_id.pack_start(m_cellrenderer_id);
   	m_treeviewcolumn_id.add_attribute(m_cellrenderer_id, "markup", m_PModel.m_col_id);
   	m_cellrenderer_id.set_property("background_set", true);
-  	m_cellrenderer_id.set_property("ypad", 15);
+  	m_cellrenderer_id.set_property("ypad", 5);
+  	m_cellrenderer_id.set_property("xpad", 5);
   	playlist_view->append_column(m_treeviewcolumn_id);
   	m_treeviewcolumn_title.set_title("Title");
   	m_treeviewcolumn_title.pack_start(m_cellrenderer_title);
   	m_treeviewcolumn_title.add_attribute(m_cellrenderer_title, "markup", m_PModel.m_col_title);
   	m_cellrenderer_title.set_property("background_set", true);
-  	m_cellrenderer_title.set_property("ypad", 15);
+  	m_cellrenderer_title.set_property("ypad", 5);
+  	m_cellrenderer_title.set_property("xpad", 5);
   	playlist_view->append_column(m_treeviewcolumn_title);
-  	m_treeviewcolumn_album.set_title("Album");
-  	m_treeviewcolumn_album.pack_start(m_cellrenderer_album);
-  	m_treeviewcolumn_album.add_attribute(m_cellrenderer_album, "markup", m_PModel.m_col_album);
-  	m_cellrenderer_album.set_property("background_set", true);
-  	m_cellrenderer_album.set_property("ypad", 15);
-  	playlist_view->append_column(m_treeviewcolumn_album);
-  	m_treeviewcolumn_artist.set_title("Artist");
-  	m_treeviewcolumn_artist.pack_start(m_cellrenderer_artist);
-  	m_treeviewcolumn_artist.add_attribute(m_cellrenderer_artist, "markup", m_PModel.m_col_artist);
-  	m_cellrenderer_artist.set_property("background_set", true);
-  	m_cellrenderer_artist.set_property("ypad", 15);
-  	playlist_view->append_column(m_treeviewcolumn_artist);
 }
 
 ruckusGUI::~ruckusGUI()

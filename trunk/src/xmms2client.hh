@@ -38,7 +38,7 @@ class xmms2client
 		void get_playlist();
 		bool set_trackinfo_pre(const unsigned int& id);
 		bool set_trackinfo(const Xmms::Dict& dict);
-		bool set_playlist(const Xmms::Dict& dict);
+		bool set_playlist(const unsigned int i, const Xmms::Dict& dict);
 		bool update_trackinfo_pre(const unsigned int& id);
 		bool update_trackinfo(const Xmms::Dict& dict);
 		bool set_playtime(const unsigned int& pt);
