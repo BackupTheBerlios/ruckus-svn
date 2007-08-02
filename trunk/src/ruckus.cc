@@ -13,8 +13,10 @@ int main(int argc, char **argv)
 {
 	Gtk::Main m(&argc, &argv);
 	px2c = new xmms2client();
+	px2c->collect_initial_data();
 	pgui = new ruckusGUI(px2c);
 	px2c->connectGUI(pgui);
+	pgui->init();
 	px2c->init();
 	m.run(*pgui);
 	delete pgui;

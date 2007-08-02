@@ -58,6 +58,7 @@ ruckusGUI::ruckusGUI(xmms2client *x2c)
   	m_cellrenderer_id.set_property("background_set", true);
   	m_cellrenderer_id.set_property("ypad", 5);
   	m_cellrenderer_id.set_property("xpad", 5);
+	m_cellrenderer_id.set_property("xalign", .5);
   	playlist_view->append_column(m_treeviewcolumn_id);
   	m_treeviewcolumn_title.set_title("Title");
   	m_treeviewcolumn_title.pack_start(m_cellrenderer_title);
@@ -91,7 +92,7 @@ void ruckusGUI::on_button_vol_up_clicked()
 
 void ruckusGUI::on_button_mute_clicked()
 {
-	if ((px2c->volume > 0 ) & (px2c->track_info.mute > 0))
+	/*if ((px2c->volume > 0 ) & (px2c->track_info.mute > 0))
 		px2c->track_info.mute = 0;
 		
 	if (px2c->track_info.mute == 0)
@@ -109,7 +110,7 @@ void ruckusGUI::on_button_mute_clicked()
 		image_nomute->hide();
 		image_mute->show();
 		label_mute->set_markup("<span foreground=\"white\"><b>Mute</b></span>");
-	}	
+	}	**/
 }
 
 void ruckusGUI::on_button_vol_down_clicked()
@@ -133,7 +134,7 @@ void ruckusGUI::on_button_rewind_clicked()
 
 void ruckusGUI::on_button_play_pause_clicked()
 {
-	if ( (px2c->track_info.status == 0 | px2c->track_info.status == 2 ) )
+	/*if ( (px2c->track_info.status == 0 | px2c->track_info.status == 2 ) )
 	{
 		px2c->client_.playback.start();
 		label_play_pause->set_markup("<span foreground=\"white\" font_desc=\"12\"><b>Pause</b></span>");
@@ -146,7 +147,7 @@ void ruckusGUI::on_button_play_pause_clicked()
 		label_play_pause->set_markup("<span foreground=\"white\" font_desc=\"12\"><b>Play</b></span>");
 		image_pause->hide();
 		image_play->show();
-	}
+	}**/
 }
 
 void ruckusGUI::on_button_forward_clicked()
@@ -191,14 +192,14 @@ void ruckusGUI::display_track_title ()
 {
 	string temp;
 	stringstream trackid;
-	trackid << px2c->track_info.id;
-	temp = "***  " + trackid.str() + ".   " + px2c->track_info.artist + " - " + px2c->track_info.title + "          ";
-	px2c->track_info.banner = remove_amp(temp);
-	string _banner = "<span foreground=\"white\" font_desc=\"18\"><b>" + px2c->track_info.banner + "</b></span>";
-	label_trackinfo->set_markup(_banner);
-	temp = "<span font_desc=\"12\" foreground=\"white\"><b>" + px2c->track_info.duration_formated + "</b></span>";
+	trackid << px2c->current_playlist_position;
+	//temp = "***  " + trackid.str() + ".   " + px2c->track_info.artist + " - " + px2c->track_info.title + "          ";
+	//px2c->track_info.banner = remove_amp(temp);
+	//string _banner = "<span foreground=\"white\" font_desc=\"18\"><b>" + px2c->track_info.banner + "</b></span>";
+	//label_trackinfo->set_markup(_banner);
+	//temp = "<span font_desc=\"12\" foreground=\"white\"><b>" + px2c->track_info.duration_formated + "</b></span>";
 	label_duration->set_markup(temp);
-	px2c->track_info.scroll = true;
+	//px2c->track_info.scroll = true;
 }
 
 string ruckusGUI::convert_msec_to_time(unsigned int time)
@@ -214,14 +215,14 @@ string ruckusGUI::convert_msec_to_time(unsigned int time)
 
 void ruckusGUI::display_playtime()
 {
-	string temp = "<span font_desc=\"12\" foreground=\"white\"><b>" + convert_msec_to_time(px2c->track_info.playtime) + "</b></span>";
-	play_time->set_markup(temp);
+	//string temp = "<span font_desc=\"12\" foreground=\"white\"><b>" + convert_msec_to_time(px2c->track_info.playtime) + "</b></span>";
+	//play_time->set_markup(temp);
 }
 
 void ruckusGUI::display_position()
 {
-	progressbar->set_range(0,px2c->track_info.duration);
-	progressbar->set_value(px2c->track_info.playtime);
+	//progressbar->set_range(0,px2c->track_info.duration);
+	//progressbar->set_value(px2c->track_info.playtime);
 }
 
 void ruckusGUI::display_volume()
@@ -236,7 +237,7 @@ void ruckusGUI::display_volume()
 void* ruckusGUI::scroll_trackinfo()
 {
 	scroll_timer.disconnect();
-	if (px2c->track_info.status == 1)
+	/*if (px2c->track_info.status == 1)
 	{
 		int xml = 0;
 		string banner_temp = px2c->track_info.banner;
@@ -262,17 +263,19 @@ void* ruckusGUI::scroll_trackinfo()
 		string _banner = "<span foreground=\"white\" font_desc=\"18\"><b>" + px2c->track_info.banner + "</b></span>";
 		label_trackinfo->set_markup(_banner);
 	}
+	**/
 	scroll_timer = Glib::signal_timeout().connect( sigc::mem_fun(*this, &ruckusGUI::scroll_trackinfo),200);
 }
 
 void ruckusGUI::init()
 {
-	display_track_title();
-	display_playtime();
-	display_position();
+	//display_track_title();
+	//display_playtime();
+	//display_position();
+	px2c->update_playlist();
 	display_volume();
-	px2c->get_playlist();
-	scroll_timer = Glib::signal_timeout().connect( sigc::mem_fun(*this, &ruckusGUI::scroll_trackinfo),200);
+	//px2c->get_playlist();
+	//scroll_timer = Glib::signal_timeout().connect( sigc::mem_fun(*this, &ruckusGUI::scroll_trackinfo),200);
 }
 
 bool ruckusGUI::error_handler( const string& error )
