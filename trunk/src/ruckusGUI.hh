@@ -49,7 +49,8 @@ class ruckusGUI : public ruckusGUI_glade
 		Gtk::TreeView::Column m_treeviewcolumn_album;
 		Gtk::CellRendererText m_cellrenderer_artist;
 		Gtk::TreeView::Column m_treeviewcolumn_artist;
-		  
+		
+		void start_scrolling();
 		void display_playtime();
 		void display_track_title();
 		void display_position();
